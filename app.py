@@ -1,14 +1,21 @@
 import streamlit as st
 from transformers import pipeline
 
-# Load Hugging Face translation pipeline
+# Define function to load the translation pipeline
 @st.cache_resource
-def load_translation_pipeline():
-    return pipeline("translation", model="Helsinki-NLP/opus-mt-en-de")  # Default model: English to German
+def load_translation_pipeline(model_name):
+    return pipeline("translation", model=model_name)
 
-translator = load_translation_pipeline()
+# Language model mapping for translation
+language_model_map = {
+    ("English", "German"): "Helsinki-NLP/opus-mt-en-de",
+    ("English", "French"): "Helsinki-NLP/opus-mt-en-fr",
+    ("English", "Spanish"): "Helsinki-NLP/opus-mt-en-es",
+    ("English", "Italian"): "Helsinki-NLP/opus-mt-en-it",
+    ("English", "Dutch"): "Helsinki-NLP/opus-mt-en-nl",
+}
 
-# App title
+# Streamlit app
 st.title("AI-Powered Translator")
 st.write("Translate text between languages using Hugging Face's pre-trained models.")
 
@@ -19,22 +26,13 @@ text_to_translate = st.text_area("Enter text to translate:", placeholder="Type y
 source_language = st.selectbox("Source Language", options=["English"], index=0)
 target_language = st.selectbox("Target Language", options=["German", "French", "Spanish", "Italian", "Dutch"], index=0)
 
-# Translation models mapping
-language_model_map = {
-    ("English", "German"): "Helsinki-NLP/opus-mt-en-de",
-    ("English", "French"): "Helsinki-NLP/opus-mt-en-fr",
-    ("English", "Spanish"): "Helsinki-NLP/opus-mt-en-es",
-    ("English", "Italian"): "Helsinki-NLP/opus-mt-en-it",
-    ("English", "Dutch"): "Helsinki-NLP/opus-mt-en-nl",
-}
-
 # Translate button
 if st.button("Translate"):
     if text_to_translate.strip():
-        # Load appropriate translation model based on selected languages
+        # Get the appropriate model
         model_name = language_model_map.get((source_language, target_language))
         if model_name:
-            translator = pipeline("translation", model=model_name)
+            translator = load_translation_pipeline(model_name)
             translation = translator(text_to_translate)
             translated_text = translation[0]["translation_text"]
             st.success("Translation completed!")

@@ -4,10 +4,6 @@ from transformers import pipeline
 # Define function to load the translation pipeline
 @st.cache_resource
 def load_translation_pipeline(model_name):
-    """
-    Load the Hugging Face translation pipeline for the specified model.
-    Device is set to CPU explicitly for compatibility.
-    """
     return pipeline("translation", model=model_name, device=-1)  # Use CPU
 
 # Language model mapping for translation
@@ -20,11 +16,11 @@ language_model_map = {
 }
 
 # Streamlit app
-st.title("🌐 LingoMate: Your AI-Powered Translator Buddy 🤖")
+st.title("🌉 LangBridge: Bridging Languages with AI 🤖")
 st.write("#### Effortless translations at your fingertips! 🌍✨")
 st.markdown(
     """
-    Welcome to **LingoMate**, your friendly AI-powered translator!  
+    Welcome to **LangBridge**, your advanced AI-powered translator!  
     Break down language barriers and communicate seamlessly.  
     Simply enter your text, select the source and target languages, and let the magic happen! 🚀
     """
@@ -61,4 +57,4 @@ if st.button("✨ Translate Now!"):
 
 # Footer
 st.markdown("---")
-st.write("🌟 **Powered by [Hugging Face Transformers](https://huggingface.co/transformers) and Streamlit**. Breaking language barriers, one word at a time! 🌟")
+st.write("🌟 **Made by Vivek Chouhan**. Breaking language barriers, one word at a time! 🌟")

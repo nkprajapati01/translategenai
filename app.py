@@ -20,18 +20,27 @@ language_model_map = {
 }
 
 # Streamlit app
-st.title("AI-Powered Translator")
-st.write("Translate text between languages using Hugging Face's pre-trained models.")
+st.title("🌐 LingoMate: Your AI-Powered Translator Buddy 🤖")
+st.write("#### Effortless translations at your fingertips! 🌍✨")
+st.markdown(
+    """
+    Welcome to **LingoMate**, your friendly AI-powered translator!  
+    Break down language barriers and communicate seamlessly.  
+    Simply enter your text, select the source and target languages, and let the magic happen! 🚀
+    """
+)
 
 # Input: Text to translate
-text_to_translate = st.text_area("Enter text to translate:", placeholder="Type your text here...")
+st.subheader("💬 Enter Text to Translate")
+text_to_translate = st.text_area("Type your text below:", placeholder="E.g., Hello, how are you?")
 
 # Input: Language selection
-source_language = st.selectbox("Source Language", options=["English"], index=0)
-target_language = st.selectbox("Target Language", options=["German", "French", "Spanish", "Italian", "Dutch"], index=0)
+st.subheader("🌍 Select Languages")
+source_language = st.selectbox("🌐 Source Language", options=["English"], index=0)
+target_language = st.selectbox("🌐 Target Language", options=["German", "French", "Spanish", "Italian", "Dutch"], index=0)
 
 # Translate button
-if st.button("Translate"):
+if st.button("✨ Translate Now!"):
     if text_to_translate.strip():
         # Get the appropriate model
         model_name = language_model_map.get((source_language, target_language))
@@ -41,15 +50,15 @@ if st.button("Translate"):
                 translator = load_translation_pipeline(model_name)
                 translation = translator(text_to_translate)
                 translated_text = translation[0]["translation_text"]
-                st.success("Translation completed!")
-                st.text_area("Translated Text", value=translated_text, height=150)
+                st.success("✅ Translation completed! Here's your result:")
+                st.text_area("🎯 Translated Text", value=translated_text, height=150)
             except Exception as e:
-                st.error(f"An error occurred during translation: {e}")
+                st.error(f"⚠️ An error occurred during translation: {e}")
         else:
-            st.error(f"Translation from {source_language} to {target_language} is not supported.")
+            st.error(f"⚠️ Translation from {source_language} to {target_language} is not supported.")
     else:
-        st.warning("Please enter text to translate.")
+        st.warning("⚠️ Please enter some text to translate.")
 
 # Footer
 st.markdown("---")
-st.write("Powered by [Hugging Face Transformers](https://huggingface.co/transformers) and Streamlit.")
+st.write("🌟 **Powered by [Hugging Face Transformers](https://huggingface.co/transformers) and Streamlit**. Breaking language barriers, one word at a time! 🌟")
